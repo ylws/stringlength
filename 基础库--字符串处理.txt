@@ -1,0 +1,55 @@
+/*
+ *字符处理 
+ * 
+ * 处理过长的字符串，截取并添加省略号
+ * 注：半角长度为1，全角长度为2
+ * 
+ */
+String.prototype.getstringlen=function(str,cutnum){
+	var len = 0,j=[];
+    for (var i = 0; i < str.length; i++) 
+    {
+        var c = str.charCodeAt(i);
+        //单字节加1 
+        if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+            len++;
+        }
+        else {
+            len += 2;
+        }
+        if(cutnum)
+        {
+        	if(len>=cutnum)
+	        {
+	        	j.push(i);
+	        }
+        }
+    }
+	if(arguments.length<=1)
+	{
+	    return len;
+	}
+	else
+	{
+		var strings="",k=0,normaltxt=0;
+		for(var m=0;m<=j[0];m++)
+    	{
+    		var c = str.charCodeAt(m);//4E00-9FA5汉字FF00-FFEF全角标点符号
+    		if ((c >= 0x4E00 && c <= 0x9FA5) || (c>=0xFF00 && c <= 0xFFEF)) {
+	            k++;
+	        }	 
+    	}
+    	normaltxt=cutnum-k*2;
+    	for(var n=0;n<k+normaltxt;n++)
+    	{
+    		if(str[n]!=undefined)
+    		{
+    			strings+=str[n];
+    		}	
+    	}
+    	j=[];
+	    return strings;
+	   	
+	}
+	
+}
